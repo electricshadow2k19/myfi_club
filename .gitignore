@@ -1,0 +1,50 @@
+# Dependencies
+node_modules/
+.pub-cache/
+.dart_tool/
+build/
+dist/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Database
+*.db
+*.sqlite
+
+# Flutter
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# Build outputs
+*.apk
+*.aab
+*.ipa
+*.app
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Temporary files
+tmp/
+temp/
+
