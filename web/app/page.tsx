@@ -4,45 +4,65 @@ import './globals.css'
 export default function Home() {
   return (
     <div>
-      {/* SECTION 1: HERO SECTION */}
+      {/* Sticky Navigation */}
+      <nav className="sticky-nav">
+        <div className="container nav-content">
+          <div className="nav-logo">🟢 MYFI</div>
+          <div className="nav-links-sticky">
+            <Link href="#features">Features</Link>
+            <Link href="#how-it-works">How It Works</Link>
+            <Link href="/login" className="nav-cta">Get Early Access</Link>
+          </div>
+        </div>
+      </nav>
+
+      {/* SECTION 1: HERO / TOP FOLD */}
       <section className="hero-section">
-        <div className="container">
+        <div className="container hero-container">
           <div className="hero-content">
             <div className="hero-text">
               <h1 className="hero-headline">
                 MYFI – One App. Every Financial Need.
               </h1>
               <p className="hero-subheadline">
-                Track, pay, invest, insure, and grow your money — all in ONE dashboard.
+                Track, pay, invest, insure and grow your money — all in one dashboard.
               </p>
-              <div className="hero-cta">
-                <Link href="/register" className="cta-primary">
+              <div className="hero-cta-group">
+                <Link href="/register" className="cta-primary-large">
                   Get Early Access
                 </Link>
-                <Link href="/login" className="cta-secondary">
+                <Link href="/register" className="cta-secondary-text">
                   Join Waitlist
                 </Link>
               </div>
-              <div className="trust-badges">
-                <span>UPI</span>
-                <span>BSE StarMF</span>
-                <span>MMTC-PAMP</span>
-                <span>CRIF Experian</span>
-                <span>NPCI Verified Partner</span>
+              <div className="trust-badges-row">
+                <div className="trust-badge">UPI Partner</div>
+                <div className="trust-badge">BSE StarMF</div>
+                <div className="trust-badge">MMTC-PAMP</div>
+                <div className="trust-badge">CRIF Experian</div>
+                <div className="trust-badge">NPCI Verified</div>
               </div>
             </div>
             <div className="hero-visual">
-              <div className="mock-phone">
-                <div className="phone-screen">
-                  <div className="screen-content">
-                    <div className="net-worth-card">
-                      <div className="net-worth-label">Net Worth</div>
-                      <div className="net-worth-value">₹12,45,000</div>
+              <div className="mock-phone-large">
+                <div className="phone-frame">
+                  <div className="phone-screen-content">
+                    <div className="app-header">
+                      <div className="app-logo-small">MYFI</div>
+                      <div className="app-balance">₹12,45,000</div>
                     </div>
-                    <div className="quick-actions">
-                      <button className="action-btn">💳 UPI</button>
-                      <button className="action-btn">📈 Invest</button>
-                      <button className="action-btn">🪙 Gold</button>
+                    <div className="app-networth">
+                      <div className="networth-label">Net Worth</div>
+                      <div className="networth-wheel">📊</div>
+                    </div>
+                    <div className="app-quick-actions">
+                      <button className="app-action">💳 UPI</button>
+                      <button className="app-action">📈 Invest</button>
+                      <button className="app-action">🪙 Gold</button>
+                    </div>
+                    <div className="app-gold-balance">
+                      <span>Gold: 5.2g</span>
+                      <span>Value: ₹33,800</span>
                     </div>
                   </div>
                 </div>
@@ -55,208 +75,205 @@ export default function Home() {
       {/* SECTION 2: PROBLEM STATEMENT */}
       <section className="problem-section">
         <div className="container">
-          <h2 className="section-title">Stop using 10 apps for your money.</h2>
-          <div className="apps-grid">
-            <div className="app-item">
-              <div className="app-icon">📱</div>
-              <div className="app-name">PhonePe</div>
-              <div className="app-purpose">UPI</div>
+          <h2 className="section-title-large">Stop using 8-10 apps to manage your money.</h2>
+          <p className="section-subtitle">Switch between payments app, investment app, gold app, credit score, insurance… It&apos;s messy. We simplify it.</p>
+          <div className="problem-visual">
+            <div className="apps-cluttered">
+              <div className="app-icon-small">📱 PhonePe</div>
+              <div className="app-icon-small">📈 Groww</div>
+              <div className="app-icon-small">💳 CRED</div>
+              <div className="app-icon-small">💰 INDmoney</div>
+              <div className="app-icon-small">📊 Zerodha</div>
+              <div className="app-icon-small">🛡️ PolicyBazaar</div>
+              <div className="app-icon-small">🪙 Gold</div>
+              <div className="app-icon-small">⭐ Credit</div>
             </div>
-            <div className="app-item">
-              <div className="app-icon">📈</div>
-              <div className="app-name">Groww</div>
-              <div className="app-purpose">MF</div>
+            <div className="arrow-large">→</div>
+            <div className="myfi-single">
+              <div className="myfi-icon-large">🟢 MYFI</div>
+              <div className="myfi-tagline">All your finances, one login</div>
             </div>
-            <div className="app-item">
-              <div className="app-icon">💳</div>
-              <div className="app-name">CRED</div>
-              <div className="app-purpose">Credit Cards</div>
-            </div>
-            <div className="app-item">
-              <div className="app-icon">💰</div>
-              <div className="app-name">INDmoney</div>
-              <div className="app-purpose">Net Worth</div>
-            </div>
-            <div className="app-item">
-              <div className="app-icon">📊</div>
-              <div className="app-name">Zerodha</div>
-              <div className="app-purpose">Stocks</div>
-            </div>
-            <div className="app-item">
-              <div className="app-icon">🛡️</div>
-              <div className="app-name">PolicyBazaar</div>
-              <div className="app-purpose">Insurance</div>
-            </div>
-          </div>
-          <div className="myfi-replaces">
-            <div className="arrow">➡️</div>
-            <div className="myfi-badge">MYFI replaces all</div>
           </div>
         </div>
       </section>
 
       {/* SECTION 3: CORE FEATURES */}
-      <section className="features-section">
+      <section id="features" className="features-section">
         <div className="container">
           <h2 className="section-title">Everything you need in one app</h2>
-          <div className="features-grid">
-            <div className="feature-card">
-              <div className="feature-icon">💳</div>
-              <h3>Credit Card Bill Pay</h3>
-              <p>Pay & earn rewards like CRED</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-icon">💰</div>
+          <div className="features-grid-modern">
+            <div className="feature-card-modern">
+              <div className="feature-icon-large">💰</div>
               <h3>UPI & Bill Payments</h3>
-              <p>One tap payments, no switching apps</p>
+              <p>Send or receive UPI, pay your bills — no switching apps</p>
             </div>
-            <div className="feature-card">
-              <div className="feature-icon">📈</div>
+            <div className="feature-card-modern">
+              <div className="feature-icon-large">💳</div>
+              <h3>Credit Card Bill Payments & Rewards</h3>
+              <p>Pay credit card bills and earn rewards like CRED</p>
+            </div>
+            <div className="feature-card-modern">
+              <div className="feature-icon-large">📈</div>
               <h3>SIP & Mutual Funds</h3>
-              <p>Invest in top funds in 2 minutes</p>
+              <p>Start SIP or invest lumpsum in top mutual funds in minutes</p>
             </div>
-            <div className="feature-card">
-              <div className="feature-icon">🏆</div>
+            <div className="feature-card-modern">
+              <div className="feature-icon-large">🏆</div>
               <h3>Net Worth Dashboard</h3>
-              <p>See your total wealth in one screen</p>
+              <p>See your complete wealth picture across all accounts</p>
             </div>
-            <div className="feature-card">
-              <div className="feature-icon">🪙</div>
+            <div className="feature-card-modern">
+              <div className="feature-icon-large">🪙</div>
               <h3>Digital & Physical Gold</h3>
-              <p>Buy 24K gold, redeem anytime</p>
+              <p>Buy 24K gold digitally or physically, redeem anytime</p>
             </div>
-            <div className="feature-card">
-              <div className="feature-icon">📊</div>
+            <div className="feature-card-modern">
+              <div className="feature-icon-large">📊</div>
               <h3>Credit Score Tracker</h3>
-              <p>Monitor and improve instantly</p>
+              <p>Monitor your credit score and get insights to improve it</p>
             </div>
           </div>
-          <div className="coming-soon">
-            <p>Coming soon: <span>Stocks</span> • <span>Insurance</span> • <span>Crypto</span> (Optional)</p>
+          <div className="coming-soon-badge">
+            <p>Coming Soon: <span>Stocks</span> • <span>Insurance</span> • <span>Crypto</span></p>
           </div>
         </div>
       </section>
 
-      {/* SECTION 4: USP / DIFFERENTIATOR */}
-      <section className="usp-section">
+      {/* SECTION 4: USP */}
+      <section className="usp-section-full">
         <div className="container">
-          <h2 className="usp-title">MYFI is not another investing app.</h2>
-          <p className="usp-subtitle">It is a <strong>Financial Operating System</strong> for your life.</p>
-          <div className="usp-points">
-            <div className="usp-point">🔥 One login</div>
-            <div className="usp-point">🔥 One dashboard</div>
-            <div className="usp-point">🔥 One complete wealth picture</div>
+          <h2 className="usp-title-large">
+            MYFI is not just another investing app.<br />
+            It&apos;s your <strong>Financial Operating System.</strong>
+          </h2>
+          <div className="usp-tagline">
+            <span>One app</span> • <span>One login</span> • <span>One complete money picture</span>
           </div>
         </div>
       </section>
 
       {/* SECTION 5: HOW IT WORKS */}
-      <section className="how-it-works-section">
+      <section id="how-it-works" className="how-it-works-section">
         <div className="container">
           <h2 className="section-title">How it works</h2>
-          <div className="steps-grid">
-            <div className="step-card">
-              <div className="step-number">①</div>
+          <div className="steps-horizontal">
+            <div className="step-card-modern">
+              <div className="step-number-large">1</div>
+              <div className="step-icon">📱</div>
               <h3>Create your MYFI account</h3>
-              <p>Phone → OTP → Ready to go</p>
+              <p>Phone → OTP → Ready</p>
             </div>
-            <div className="step-card">
-              <div className="step-number">②</div>
-              <h3>Connect your finances</h3>
-              <p>UPI, banks, MFs, credit cards, gold, investments</p>
+            <div className="step-connector">→</div>
+            <div className="step-card-modern">
+              <div className="step-number-large">2</div>
+              <div className="step-icon">🔗</div>
+              <h3>Connect your money</h3>
+              <p>UPI, bank, cards, investments</p>
             </div>
-            <div className="step-card">
-              <div className="step-number">③</div>
-              <h3>Track • Pay • Grow</h3>
-              <p>All your money, one intelligent platform</p>
+            <div className="step-connector">→</div>
+            <div className="step-card-modern">
+              <div className="step-number-large">3</div>
+              <div className="step-icon">🚀</div>
+              <h3>Track · Pay · Grow</h3>
+              <p>See all your money, invest, save, manage</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* SECTION 6: SOCIAL PROOF */}
+      {/* SECTION 6: SOCIAL PROOF / TRUST */}
       <section className="social-proof-section">
         <div className="container">
-          <div className="proof-content">
-            <p className="proof-text">Backed by industry-grade financial infrastructure</p>
-            {/* Future: Replace with actual metrics */}
-            {/* <div className="proof-stats">
-              <div className="stat">⭐ 50,000+ users trust MYFI</div>
-              <div className="stat">⭐ ₹12 Cr net worth tracked</div>
-              <div className="stat">⭐ 4.8★ app rating</div>
-            </div> */}
+          <h2 className="section-title">Built on trusted financial infrastructure</h2>
+          <div className="partner-logos">
+            <div className="partner-logo">NPCI</div>
+            <div className="partner-logo">BSE</div>
+            <div className="partner-logo">MMTC-PAMP</div>
+            <div className="partner-logo">CRIF</div>
+            <div className="partner-logo">Experian</div>
+          </div>
+          <div className="proof-stats">
+            <p className="proof-text-large">Join our community of early adopters</p>
+            <p className="proof-text-small">Early access invites now open</p>
           </div>
         </div>
       </section>
 
-      {/* SECTION 7: SECURITY */}
-      <section className="security-section">
+      {/* SECTION 7: SECURITY & COMPLIANCE */}
+      <section className="security-section-modern">
         <div className="container">
-          <h2 className="section-title">🛡️ Security matters. MYFI is built to banking standards.</h2>
-          <div className="security-features">
-            <div className="security-item">
-              <div className="security-icon">✔</div>
-              <p>PCI DSS compliant</p>
+          <div className="security-header">
+            <div className="security-icon-large">🛡️</div>
+            <h2 className="section-title">Bank-grade security built in</h2>
+          </div>
+          <div className="security-grid">
+            <div className="security-item-modern">
+              <div className="security-check">✓</div>
+              <p>PCI-DSS compliant</p>
             </div>
-            <div className="security-item">
-              <div className="security-icon">✔</div>
-              <p>Bank-grade 256-bit encryption</p>
+            <div className="security-item-modern">
+              <div className="security-check">✓</div>
+              <p>256-bit encryption</p>
             </div>
-            <div className="security-item">
-              <div className="security-icon">✔</div>
-              <p>API-connected directly to partner banks</p>
+            <div className="security-item-modern">
+              <div className="security-check">✓</div>
+              <p>We don&apos;t store your passwords</p>
             </div>
-            <div className="security-item">
-              <div className="security-icon">✔</div>
-              <p>We do NOT store your passwords</p>
+            <div className="security-item-modern">
+              <div className="security-check">✓</div>
+              <p>Your data is safe with us</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* SECTION 8: REFERRAL / EARLY ACCESS */}
-      <section className="referral-section">
+      <section className="referral-section-modern">
         <div className="container">
           <h2 className="section-title">Invite friends & unlock exclusive rewards</h2>
-          <p className="referral-text">For every user who joins, get:</p>
-          <div className="rewards-grid">
-            <div className="reward-item">✔ Free credit score refresh</div>
-            <div className="reward-item">✔ Bonus gold credits</div>
-            <div className="reward-item">✔ ₹50 wallet credit (optional)</div>
+          <p className="referral-description">Get MYFI Coins → redeem for gold credits, cashback, premium features</p>
+          <div className="reward-highlights">
+            <div className="reward-highlight">🎁 Earn ₹50 credit per referral</div>
+            <div className="reward-highlight">🪙 Bonus gold credits</div>
+            <div className="reward-highlight">⭐ Premium features unlock</div>
           </div>
-          <Link href="/register" className="cta-primary">
-            Start Referring
+          <Link href="/register" className="cta-primary-large">
+            Unlock Early Access
           </Link>
         </div>
       </section>
 
       {/* SECTION 9: FINAL CTA */}
-      <section className="final-cta-section">
+      <section className="final-cta-section-modern">
         <div className="container">
-          <h2 className="final-cta-title">Take control of your entire financial life.</h2>
-          <p className="final-cta-subtitle">With one app.</p>
-          <Link href="/register" className="cta-primary large">
-            JOIN EARLY ACCESS
+          <h2 className="final-cta-title-large">
+            Take control of your entire financial life.<br />
+            With one powerful app.
+          </h2>
+          <Link href="/register" className="cta-primary-large">
+            Get Early Access
           </Link>
         </div>
       </section>
 
       {/* SECTION 10: FOOTER */}
-      <footer className="footer">
+      <footer className="footer-modern">
         <div className="container">
-          <div className="footer-content">
-            <div className="footer-links">
-              <Link href="/about">About</Link>
-              <Link href="/contact">Contact</Link>
-              <Link href="/security">Security</Link>
-              <Link href="/privacy">Privacy Policy</Link>
-              <Link href="/terms">Terms</Link>
-              <Link href="/careers">Careers</Link>
-            </div>
-            <div className="footer-copyright">
-              <p>© 2025 MYFI Technologies Pvt Ltd</p>
-              <p>Domain: www.myfi.club</p>
-            </div>
+          <div className="footer-links-modern">
+            <Link href="/about">About</Link>
+            <Link href="/contact">Contact</Link>
+            <Link href="/security">Security</Link>
+            <Link href="/privacy">Privacy Policy</Link>
+            <Link href="/terms">Terms</Link>
+            <Link href="/careers">Careers</Link>
+          </div>
+          <div className="footer-social">
+            <Link href="#" className="social-icon">LinkedIn</Link>
+            <Link href="#" className="social-icon">Twitter</Link>
+          </div>
+          <div className="footer-copyright-modern">
+            <p>© 2025 MYFI Technologies Pvt Ltd</p>
+            <p>Domain: www.myfi.club</p>
           </div>
         </div>
       </footer>
