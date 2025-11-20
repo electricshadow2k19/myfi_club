@@ -5,8 +5,8 @@ const nextConfig = {
     unoptimized: true, // Required for static export
   },
   trailingSlash: true,
-  basePath: '/myfi_club', // Required for GitHub Pages subdirectory deployment
-  assetPrefix: '/myfi_club', // Required for assets in subdirectory
+  // basePath removed for custom domain deployment
+  // When using custom domain (www.myfi.club), no basePath is needed
 }
 
 module.exports = nextConfig
