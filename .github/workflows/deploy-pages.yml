@@ -49,6 +49,12 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
       
+      - name: Copy CNAME file
+        run: |
+          if [ -f CNAME ]; then
+            cp CNAME web/out/CNAME
+          fi
+      
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
