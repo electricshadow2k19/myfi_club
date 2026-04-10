@@ -1,0 +1,6 @@
+# Netlify-style redirects (for root domain redirect)
+# This will be handled by GitHub Pages or can be added to out folder
+
+myfi.club/*    https://www.myfi.club/:splat    301!
+*.myfi.club/*  https://www.myfi.club/:splat    301!
+
