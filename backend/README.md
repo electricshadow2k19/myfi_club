@@ -86,6 +86,18 @@ npm start
 - `POST /api/v1/gold/buy/digital` - Buy digital gold
 - `GET /api/v1/gold/holdings` - Get gold holdings
 
+### AI Assistant (stub — RAG preview)
+- `POST /api/v1/chat` — Body: `{ "message": "Your question" }` (optional `conversationId` UUID)
+- Returns a placeholder reply and mock `retrievedContext` until vector DB + LLM are wired.
+- **Note:** Not authenticated yet (dev/stub). Lock down with `authenticateToken` before production.
+
+Example:
+```bash
+curl -s -X POST http://localhost:3000/api/v1/chat \
+  -H "Content-Type: application/json" \
+  -d "{\"message\":\"How should I think about credit card debt?\"}"
+```
+
 ## Environment Variables
 
 See `.env.example` for all required environment variables.

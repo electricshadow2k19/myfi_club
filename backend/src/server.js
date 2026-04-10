@@ -17,6 +17,7 @@ const netWorthRoutes = require('./routes/netWorth');
 const creditScoreRoutes = require('./routes/creditScore');
 const mutualFundRoutes = require('./routes/mutualFunds');
 const goldRoutes = require('./routes/gold');
+const chatRoutes = require('./routes/chat');
 
 // Import Middleware
 const { errorHandler } = require('./middleware/errorHandler');
@@ -70,6 +71,8 @@ app.use('/api/v1/networth', authenticateToken, netWorthRoutes);
 app.use('/api/v1/credit-score', authenticateToken, creditScoreRoutes);
 app.use('/api/v1/mutual-funds', authenticateToken, mutualFundRoutes);
 app.use('/api/v1/gold', authenticateToken, goldRoutes);
+// AI Assistant (stub — no JWT yet; add authenticateToken + user-scoped RAG in production)
+app.use('/api/v1/chat', chatRoutes);
 
 // 404 Handler
 app.use((req, res) => {
