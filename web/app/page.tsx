@@ -7,7 +7,9 @@ export default function Home() {
       {/* Sticky Navigation */}
       <nav className="sticky-nav">
         <div className="container nav-content">
-          <div className="nav-logo">🟢 MYFI</div>
+          <Link href="/" className="nav-logo">
+            🟢 MYFI
+          </Link>
           <div className="nav-links-sticky">
             <Link href="#features">Features</Link>
             <Link href="#how-it-works">How It Works</Link>
