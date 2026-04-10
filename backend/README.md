@@ -86,10 +86,14 @@ npm start
 - `POST /api/v1/gold/buy/digital` - Buy digital gold
 - `GET /api/v1/gold/holdings` - Get gold holdings
 
-### AI Assistant (stub — RAG preview)
+### AI Assistant (free RAG)
 - `POST /api/v1/chat` — Body: `{ "message": "Your question" }` (optional `conversationId` UUID)
-- Returns a placeholder reply and mock `retrievedContext` until vector DB + LLM are wired.
-- **Note:** Not authenticated yet (dev/stub). Lock down with `authenticateToken` before production.
+- **Retrieval:** TF–IDF over `data/rag/knowledge-chunks.json` (no API key, no cost). Edit that file to grow the knowledge base.
+- **Generation (optional, free tiers):** set **one** of:
+  - `GROQ_API_KEY` — [Groq Cloud](https://console.groq.com/) (e.g. `llama-3.1-8b-instant`; override with `GROQ_MODEL`)
+  - `GEMINI_API_KEY` — [Google AI Studio](https://aistudio.google.com/) (default model `gemini-1.5-flash`; override with `GEMINI_MODEL`)
+- If neither key is set, the API still returns **RAG-style answers** by quoting the top retrieved passages (mode `rag-template`).
+- **Note:** Not authenticated yet. Add `authenticateToken` before production.
 
 Example:
 ```bash

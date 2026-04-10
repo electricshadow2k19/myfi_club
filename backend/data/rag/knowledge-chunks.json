@@ -1,0 +1,52 @@
+[
+  {
+    "id": "cc-minpay-1",
+    "title": "Credit card minimum payments and payoff time",
+    "text": "Paying only the minimum due on a credit card keeps the account in good standing but interest accrues on the remaining balance at your card's APR. Larger balances at typical APRs can take many years to pay off with minimums alone because a large share of the minimum may go to interest. Paying more than the minimum, especially early, reduces total interest. Strategies: avalanche (highest APR first) or snowball (smallest balance first). Always verify APR, minimum rules, and fees on your actual statement."
+  },
+  {
+    "id": "cc-debt-2",
+    "title": "High credit card balances (e.g. two lakh)",
+    "text": "A substantial balance such as two lakh rupees requires a clear plan: list all cards with APR and balance, avoid new charges if possible, and pay more than the minimum on at least one card. Time to payoff depends on APR, minimum formula, and how much extra you pay each month—it is not fixed. Use your statement's repayment estimate or an amortization calculator with your real APR. MYFI does not see your live balances until accounts are linked."
+  },
+  {
+    "id": "credit-util-3",
+    "title": "Credit utilization and score",
+    "text": "Utilization is how much of your credit limit you use. Lower utilization generally helps scores; very high utilization can hurt until balances are paid down. Paying before the statement closing date can lower reported utilization. Scores also depend on payment history, length of history, mix, and inquiries—check your bureau report for factors."
+  },
+  {
+    "id": "upi-safety-4",
+    "title": "UPI payments safety",
+    "text": "Use official apps, verify payee name and VPA before confirming, do not share UPI PIN or OTP, and enable device lock. For disputes, use the bank or NPCI grievance process per their timelines."
+  },
+  {
+    "id": "sip-mf-5",
+    "title": "SIP and mutual funds basics",
+    "text": "SIPs invest fixed amounts at intervals; they do not guarantee returns. Mutual funds are subject to market risk—read the scheme document and riskometer. Diversify and align horizon with goals; consider speaking to a SEBI-registered advisor for personalized advice."
+  },
+  {
+    "id": "gold-6",
+    "title": "Digital gold and storage",
+    "text": "Digital gold platforms tie metal to vault-backed grams; understand buy/sell spread, storage fees if any, and redemption options (delivery limits may apply). Compare with sovereign gold bonds and physical gold for your goals."
+  },
+  {
+    "id": "insurance-7",
+    "title": "Term and health insurance orientation",
+    "text": "Term life covers death risk for dependents; health covers hospitalization. Compare sum insured, exclusions, waiting periods, and network hospitals. Read the policy wording before buying."
+  },
+  {
+    "id": "myfi-scope-8",
+    "title": "What MYFI aggregates (product scope)",
+    "text": "MYFI aims to unify UPI, bank and card visibility, investments, gold, credit insights, and insurance hooks in one dashboard. Features roll out in phases; not all partners or data feeds may be live in preview."
+  },
+  {
+    "id": "data-privacy-9",
+    "title": "Data and consent",
+    "text": "Financial apps should use explicit consent for data pulls, secure storage, and clear privacy policy. Review permissions and revoke access through your bank or app settings if needed."
+  },
+  {
+    "id": "fraud-10",
+    "title": "Scam awareness",
+    "text": "No bank or RBI official asks for PIN, OTP, or full card number over phone. Report suspicious messages to your bank and cybercrime portals per local guidance."
+  }
+]
