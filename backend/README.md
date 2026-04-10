@@ -86,21 +86,27 @@ npm start
 - `POST /api/v1/gold/buy/digital` - Buy digital gold
 - `GET /api/v1/gold/holdings` - Get gold holdings
 
-### AI Assistant (free RAG)
-- `POST /api/v1/chat` — Body: `{ "message": "Your question" }` (optional `conversationId` UUID)
-- **Retrieval:** TF–IDF over `data/rag/knowledge-chunks.json` (no API key, no cost). Edit that file to grow the knowledge base.
-- **Static site (www.myfi.club):** `web` copies this file to `public/rag/` at `npm run build` / `npm run dev` and the chat widget runs the same TF–IDF + template logic in the browser when `NEXT_PUBLIC_MYFI_API_URL` is not set.
+### AI Assistant (RAG + optional LLM)
+- `POST /api/v1/chat`
+- **Single turn:** `{ "message": "Your question", "conversationId?": "uuid" }`
+- **Multi-turn (recommended):** `{ "messages": [ { "role": "user"|"assistant", "content": "..." }, ... ], "conversationId?": "uuid" }` — array must end with a **user** message. Prior turns are sent to the LLM for context.
+- **Retrieval:** TF–IDF over `data/rag/knowledge-chunks.json`. Edit that file to grow the knowledge base.
 - **Generation (optional, free tiers):** set **one** of:
-  - `GROQ_API_KEY` — [Groq Cloud](https://console.groq.com/) (e.g. `llama-3.1-8b-instant`; override with `GROQ_MODEL`)
-  - `GEMINI_API_KEY` — [Google AI Studio](https://aistudio.google.com/) (default model `gemini-1.5-flash`; override with `GEMINI_MODEL`)
-- If neither key is set, the API still returns **RAG-style answers** by quoting the top retrieved passages (mode `rag-template`).
+  - `GROQ_API_KEY` — [Groq](https://console.groq.com/) — default model `llama-3.3-70b-versatile` (override with `GROQ_MODEL`, e.g. `llama-3.1-8b-instant` if needed)
+  - `GEMINI_API_KEY` — [Google AI Studio](https://aistudio.google.com/) (`GEMINI_MODEL` default `gemini-1.5-flash`)
+- Without an LLM key, responses use structured **template** answers from retrieved chunks (still accurate, less conversational).
+- **Static marketing site:** set `NEXT_PUBLIC_MYFI_API_URL` to your API base (e.g. `https://api.example.com`) or the full Netlify function URL `https://www.myfi.club/.netlify/functions/chat`. See repo `netlify.toml` + `netlify/functions/` — set `GROQ_API_KEY` in Netlify environment variables for live dialogue.
 - **Note:** Not authenticated yet. Add `authenticateToken` before production.
 
-Example:
+Examples:
 ```bash
 curl -s -X POST http://localhost:3000/api/v1/chat \
   -H "Content-Type: application/json" \
   -d "{\"message\":\"How should I think about credit card debt?\"}"
+
+curl -s -X POST http://localhost:3000/api/v1/chat \
+  -H "Content-Type: application/json" \
+  -d "{\"messages\":[{\"role\":\"user\",\"content\":\"I have 2L on a card\"},{\"role\":\"assistant\",\"content\":\"...\"},{\"role\":\"user\",\"content\":\"What if I only pay minimums?\"}]}"
 ```
 
 ## Environment Variables

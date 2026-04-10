@@ -1,8 +1,5 @@
 /**
- * Free RAG stack:
- * - Retrieval: TF–IDF cosine similarity over local JSON chunks (no API, no cost).
- * - Generation (optional, free tiers): GROQ_API_KEY (Groq) or GEMINI_API_KEY (Google AI Studio).
- * - Fallback: template answer from top chunks + keyword stub if nothing matches.
+ * RAG: TF–IDF retrieval over local JSON + optional LLM (Groq / Gemini) with multi-turn chat.
  */
 
 const path = require('path');
@@ -12,12 +9,18 @@ const { buildStubReply } = require('../utils/assistantStub');
 
 const KB_PATH = path.join(__dirname, '../../data/rag/knowledge-chunks.json');
 
-const SYSTEM_PROMPT = `You are MYFI Assistant, a helpful but cautious finance education helper for Indian users.
-Rules:
-- Use ONLY the CONTEXT below plus general reasoning. If context is insufficient, say so briefly.
-- Never invent account-specific numbers; user balances are unknown unless stated in their message.
-- No personalized legal/tax/investment advice; keep answers educational.
-- Short paragraphs, plain language. If mentioning payoff time, stress it depends on APR and payment amount unless user gave numbers you can use for a rough illustration.`;
+const SYSTEM_PROMPT = `You are **MYFI Assistant** — a professional, calm financial guide for people in **India**. You speak clear, modern English (and may briefly acknowledge Hindi terms users use like EMI, lakh, or SIP).
+
+**Scope:** Personal finance only — credit cards, loans, UPI, savings, mutual funds/SIP, gold, insurance, budgeting, credit scores (CIBIL, etc.), taxes at a high level, scams, and app safety. If the user asks for non-finance topics (coding, recipes, politics), politely decline and offer to help with money instead.
+
+**How to answer:**
+- Sound **conversational and human** — like a trusted advisor, not a bulletin board. Use short paragraphs, optional bullet points when listing steps.
+- **Ground answers** in the RETRIEVED CONTEXT provided for this turn. If context is thin, say so honestly and give cautious, general education — do not invent product rules or rates.
+- **Never** claim you can see their bank balance, card APR, or live MYFI data unless they pasted numbers in the chat.
+- For "how long to pay off" questions: explain that duration depends on **APR**, **minimum-payment rules**, and **extra payments** — suggest they use their **statement illustration** or a calculator with their real figures. Do not fabricate a specific number of months without their inputs.
+- End with a **one-line disclaimer** when giving strategy: that this is educational, not personalized tax/legal/investment advice.
+
+**Safety:** No encouragement of fraud, tax evasion, or hiding assets. Encourage official channels for disputes.`;
 
 function normalizeToken(t) {
   const map = {
@@ -128,6 +131,13 @@ function retrieve(message, topK = 5) {
   return scored.slice(0, topK).filter((s) => s.score > 0);
 }
 
+/** Build retrieval query from latest user message + recent user turns (follow-ups). */
+function retrievalQuery(latestUserText, priorMessages) {
+  const userTurns = priorMessages.filter((m) => m.role === 'user').map((m) => m.content);
+  const tail = userTurns.slice(-2);
+  return [...tail, latestUserText].join(' ').slice(0, 4000);
+}
+
 function formatContext(matches) {
   if (!matches.length) return '(No matching knowledge base passages.)';
   return matches
@@ -135,65 +145,112 @@ function formatContext(matches) {
     .join('\n\n');
 }
 
+const RAG_THRESHOLD = 0.012;
+
 function templateFromRag(userMessage, matches) {
-  const threshold = 0.012;
-  if (!matches.length || matches[0].score < threshold) {
+  if (!matches.length || matches[0].score < RAG_THRESHOLD) {
     return buildStubReply(userMessage);
   }
-  const parts = matches.slice(0, 3).map((m) => `**${m.chunk.title}**\n${m.chunk.text}`);
+  const top = matches[0].chunk;
+  const extra = matches.slice(1, 3).map((m) => m.chunk);
+  let body = `**Here is the straight answer**\n\n${top.text}\n\n`;
+  if (extra.length) {
+    body += `**Also good to know**\n\n`;
+    extra.forEach((c) => {
+      body += `• *${c.title}* — ${c.text}\n\n`;
+    });
+  }
   const wantsTiming = /how long|how many month|months to|years to|time to|close my|pay off|clear.*bill/i.test(
     userMessage
   );
   const footer = wantsTiming
-    ? '\n\n---\n**How long to clear the balance?** There is no single answer without your **exact APR** and how the **minimum due** is calculated. Use the repayment estimate on your **card statement** or a calculator with your real numbers. Paying only the minimum usually means **many years** and **large total interest** for a large balance at typical card APRs.'
-    : '\n\n---\nThis is general educational information—not personalized advice. Check your card agreement and statements for exact APRs, minimums, and payoff estimates.';
-  return 'Here is guidance based on MYFI’s knowledge base (retrieved for your question):\n\n' + parts.join('\n\n') + footer;
+    ? '**Payoff timeline:** Without your exact APR and minimum rules, nobody can honestly give you a single “X months” figure. Check the repayment table on your **card statement** or plug your balance and APR into a calculator — paying only the minimum on a large balance often stretches **many years** and costs a lot in interest.\n\n'
+    : '';
+  return `${body}${footer}*Educational guidance only — not personalized advice.*`;
 }
 
-async function generateGroq(userMessage, contextBlock) {
+function sanitizeHistory(msgs) {
+  const out = [];
+  for (const m of msgs) {
+    if (!out.length && m.role === 'assistant') continue;
+    out.push({ role: m.role, content: m.content });
+  }
+  return out;
+}
+
+function trimHistory(priorMessages, maxPairs = 8) {
+  return sanitizeHistory(priorMessages).slice(-maxPairs * 2);
+}
+
+function buildContextualUserMessage(contextBlock, latestUserText) {
+  return (
+    `The following is retrieved from MYFI's knowledge base for this question. Use it to ground your reply; synthesize in your own words. If it doesn't fully answer the question, say what is missing and give careful general guidance.\n\n` +
+    `---\n${contextBlock}\n---\n\n` +
+    `User message:\n${latestUserText}`
+  );
+}
+
+async function generateGroq(priorMessages, contextBlock, latestUserText) {
   const key = process.env.GROQ_API_KEY;
   if (!key) return null;
-  const userContent = `CONTEXT:\n${contextBlock}\n\nUSER QUESTION:\n${userMessage}`;
+  const model = process.env.GROQ_MODEL || 'llama-3.3-70b-versatile';
+  const history = trimHistory(priorMessages);
+  const messages = [{ role: 'system', content: SYSTEM_PROMPT }];
+  history.forEach((m) => {
+    messages.push({ role: m.role, content: m.content });
+  });
+  messages.push({ role: 'user', content: buildContextualUserMessage(contextBlock, latestUserText) });
+
   const { data } = await axios.post(
     'https://api.groq.com/openai/v1/chat/completions',
     {
-      model: process.env.GROQ_MODEL || 'llama-3.1-8b-instant',
-      messages: [
-        { role: 'system', content: SYSTEM_PROMPT },
-        { role: 'user', content: userContent },
-      ],
-      temperature: 0.35,
-      max_tokens: 1024,
+      model,
+      messages,
+      temperature: 0.45,
+      max_tokens: 1400,
     },
     {
       headers: {
         Authorization: `Bearer ${key}`,
         'Content-Type': 'application/json',
       },
-      timeout: 45000,
+      timeout: 60000,
     }
   );
   const text = data?.choices?.[0]?.message?.content;
   return text ? String(text).trim() : null;
 }
 
-async function generateGemini(userMessage, contextBlock) {
+async function generateGemini(priorMessages, contextBlock, latestUserText) {
   const key = process.env.GEMINI_API_KEY;
   if (!key) return null;
-  const userPart = `CONTEXT:\n${contextBlock}\n\nUSER QUESTION:\n${userMessage}`;
   const model = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(key)}`;
+
+  const history = trimHistory(priorMessages);
+  const contents = [];
+  history.forEach((m) => {
+    contents.push({
+      role: m.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: m.content }],
+    });
+  });
+  contents.push({
+    role: 'user',
+    parts: [{ text: buildContextualUserMessage(contextBlock, latestUserText) }],
+  });
+
   const { data } = await axios.post(
     url,
     {
       systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
-      contents: [{ role: 'user', parts: [{ text: userPart }] }],
+      contents,
       generationConfig: {
-        temperature: 0.35,
-        maxOutputTokens: 1024,
+        temperature: 0.45,
+        maxOutputTokens: 1400,
       },
     },
-    { timeout: 45000 }
+    { timeout: 60000 }
   );
   const parts = data?.candidates?.[0]?.content?.parts;
   const text = parts?.map((p) => p.text).join('');
@@ -201,10 +258,12 @@ async function generateGemini(userMessage, contextBlock) {
 }
 
 /**
- * @returns {Promise<{ reply: string, retrievedContext: Array, mode: string, model: string }>}
+ * @param {string} latestUserText
+ * @param {Array<{role:'user'|'assistant', content: string}>} priorMessages - messages before latest user turn
  */
-async function answerChat(userMessage) {
-  const matches = retrieve(userMessage, 5);
+async function answerChat(latestUserText, priorMessages = []) {
+  const query = retrievalQuery(latestUserText, priorMessages);
+  const matches = retrieve(query, 5);
   const retrievedContext = matches.map((m) => ({
     title: m.chunk.title,
     snippet: m.chunk.text.slice(0, 280) + (m.chunk.text.length > 280 ? '…' : ''),
@@ -220,17 +279,17 @@ async function answerChat(userMessage) {
 
   try {
     if (process.env.GROQ_API_KEY) {
-      reply = await generateGroq(userMessage, contextBlock);
+      reply = await generateGroq(priorMessages, contextBlock, latestUserText);
       if (reply) {
         mode = 'rag-groq';
-        model = process.env.GROQ_MODEL || 'llama-3.1-8b-instant';
+        model = process.env.GROQ_MODEL || 'llama-3.3-70b-versatile';
       }
     }
     if (!reply && process.env.GEMINI_API_KEY) {
-      reply = await generateGemini(userMessage, contextBlock);
+      reply = await generateGemini(priorMessages, contextBlock, latestUserText);
       if (reply) {
         mode = 'rag-gemini';
-        model = process.env.GEMINI_MODEL || 'gemini-2.0-flash';
+        model = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
       }
     }
   } catch (err) {
@@ -238,8 +297,8 @@ async function answerChat(userMessage) {
   }
 
   if (!reply) {
-    reply = templateFromRag(userMessage, matches);
-    if (matches.length && matches[0].score >= 0.02) {
+    reply = templateFromRag(latestUserText, matches);
+    if (matches.length && matches[0].score >= RAG_THRESHOLD) {
       mode = 'rag-template';
       model = 'tfidf+template';
     } else {
@@ -261,6 +320,7 @@ async function answerChat(userMessage) {
         ],
     mode,
     model,
+    llmEnabled: !!(process.env.GROQ_API_KEY || process.env.GEMINI_API_KEY),
   };
 }
 

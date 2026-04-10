@@ -1,0 +1,10 @@
+# Netlify: set GROQ_API_KEY (or GEMINI_API_KEY) in Site settings → Environment for conversational LLM replies.
+# Build must run from repo root so ../backend exists for copy-rag-knowledge.
+
+[build]
+  command = "cd web && npm ci && npm run build"
+  publish = "web/out"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"

@@ -48,3 +48,6 @@ coverage/
 tmp/
 temp/
 
+# Generated for Netlify functions (copied from backend/data/rag on web prebuild)
+netlify/functions/knowledge-chunks.json
+

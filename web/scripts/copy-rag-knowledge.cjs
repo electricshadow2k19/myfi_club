@@ -15,3 +15,9 @@ if (!fs.existsSync(src)) {
 fs.mkdirSync(destDir, { recursive: true })
 fs.copyFileSync(src, dest)
 console.log('[copy-rag-knowledge] Copied KB to', dest)
+
+const netlifyDir = path.join(__dirname, '../../netlify/functions')
+const netlifyKb = path.join(netlifyDir, 'knowledge-chunks.json')
+fs.mkdirSync(netlifyDir, { recursive: true })
+fs.copyFileSync(src, netlifyKb)
+console.log('[copy-rag-knowledge] Copied KB to', netlifyKb)

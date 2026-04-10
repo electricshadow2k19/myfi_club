@@ -1,9 +1,10 @@
 /**
- * Browser-side RAG (TF–IDF + template) using the same JSON as the backend.
- * Used when NEXT_PUBLIC_MYFI_API_URL is unset or the API call fails (static hosting).
+ * Browser-side RAG when no chat API is configured. Supports multi-turn retrieval (recent user text).
  */
 
 export type KbChunk = { id: string; title: string; text: string }
+
+export type ChatTurn = { role: 'user' | 'assistant'; content: string }
 
 type IndexedChunk = KbChunk & { tokens: string[] }
 
@@ -14,8 +15,8 @@ type Corpus = {
 }
 
 const KB_URL = '/rag/knowledge-chunks.json'
+const RAG_THRESHOLD = 0.012
 
-/** Common typos / variants so queries still match KB text. */
 function normalizeToken(t: string): string {
   const map: Record<string, string> = {
     minumum: 'minimum',
@@ -119,6 +120,12 @@ function loadCorpus(): Promise<Corpus> {
   return corpusPromise
 }
 
+function retrievalQuery(latestUserText: string, priorMessages: ChatTurn[]): string {
+  const userTurns = priorMessages.filter((m) => m.role === 'user').map((m) => m.content)
+  const tail = userTurns.slice(-2)
+  return [...tail, latestUserText].join(' ').slice(0, 4000)
+}
+
 function retrieve(message: string, corpus: Corpus, topK = 5) {
   const qTokens = tokenize(message)
   const qVec = tfidfVector(qTokens, corpus.idf)
@@ -133,45 +140,52 @@ function retrieve(message: string, corpus: Corpus, topK = 5) {
 function buildStubReply(userMessage: string): string {
   const lower = userMessage.toLowerCase()
   let reply =
-    "Here is general guidance (we couldn’t match a specific knowledge article closely—try rephrasing with words like **minimum payment**, **credit card**, **EMI**, or **CIBIL**):\n\n"
-  if (/debt|pay off|balance|interest|credit card|minimum|lakh|bill/i.test(userMessage)) {
+    'I focus on **personal finance for India**. I could not match a strong knowledge-base article — try words like **credit card**, **minimum payment**, **SIP**, **CIBIL**, or **UPI**.\n\n'
+  if (/debt|pay off|balance|interest|credit card|minimum|lakh|bill|card/i.test(userMessage)) {
     reply +=
-      'For credit card debt: paying only the **minimum** keeps the account current but **interest keeps accruing** on what you owe. **Payoff time in months or years depends on your APR and the minimum formula**—it is not one fixed number. Check your statement’s repayment illustration or use your APR and balance in a calculator. Paying more than the minimum, especially early, saves the most interest. Strategies people use: **avalanche** (highest APR first) or **snowball** (smallest balance first).'
-  } else if (/credit score|utilization|crif|experian|cibil/i.test(lower)) {
+      'On **card debt**: paying only the **minimum** avoids late fees but **interest keeps building** on the rest. Payoff time needs your real **APR** and rules — use your **statement** or a calculator. Paying extra, especially early, saves the most interest.'
+  } else if (/credit score|utilization|cibil|crif|experian/i.test(lower)) {
     reply +=
-      'Credit scores usually benefit from **on-time payments** and **lower utilization**. Pull your bureau report to see factors and dispute errors if any.'
-  } else if (/save|savings|sip|invest|mutual|gold/i.test(lower)) {
+      'Scores usually reward **on-time payments** and **lower credit utilization**. Pull your bureau report for factors and dispute errors if needed.'
+  } else if (/save|savings|sip|invest|mutual|gold|insurance/i.test(lower)) {
     reply +=
-      'For savings and investing, align amount and horizon with your goals, read scheme documents, and remember market-linked products carry risk.'
+      'For investing and savings: match products to your **horizon** and **risk**; read scheme documents — market-linked options are not guaranteed.'
   } else {
-    reply +=
-      'You can ask about **UPI safety**, **SIP**, **gold**, **insurance**, **home loans**, **BNPL**, **budgeting**, and more.'
+    reply += 'Ask me anything about **money in India** — cards, loans, UPI, investing, insurance, or scams.'
   }
   return reply
 }
 
 function templateFromRag(userMessage: string, matches: { chunk: IndexedChunk; score: number }[]): string {
-  const threshold = 0.012
-  if (!matches.length || matches[0].score < threshold) {
+  if (!matches.length || matches[0].score < RAG_THRESHOLD) {
     return buildStubReply(userMessage)
   }
-  const parts = matches.slice(0, 3).map((m) => `**${m.chunk.title}**\n${m.chunk.text}`)
+  const top = matches[0].chunk
+  const extra = matches.slice(1, 3).map((m) => m.chunk)
+  let body = `**Here is the straight answer**\n\n${top.text}\n\n`
+  if (extra.length) {
+    body += `**Also good to know**\n\n`
+    extra.forEach((c) => {
+      body += `• *${c.title}* — ${c.text}\n\n`
+    })
+  }
   const wantsTiming = /how long|how many month|months to|years to|time to|close my|pay off|clear.*bill/i.test(
     userMessage
   )
   const footer = wantsTiming
-    ? '\n\n---\n**How long to clear the balance?** There is no single answer without your **exact APR** and how the **minimum due** is calculated (it changes as the balance drops). Use the repayment estimate on your **card statement** or an amortization calculator with your real numbers. Paying only the minimum usually means **many years** and **large total interest** for a two-lakh-style balance at typical Indian card APRs.'
-    : '\n\n---\nGeneral educational information only—not personalized financial advice. Verify rates and terms on your statements.'
-  return 'Here is guidance based on MYFI’s knowledge base (matched to your question):\n\n' + parts.join('\n\n') + footer
+    ? '**Payoff timeline:** Without your exact APR and minimum rules, no one can honestly give one fixed number of months. Use your **card statement** repayment estimate or a calculator.\n\n'
+    : ''
+  return `${body}${footer}*Educational guidance only — not personalized advice.*`
 }
 
-/** Call when API is unavailable or returns an error. */
-export async function clientRagReply(message: string): Promise<string> {
+/** Offline / static: uses KB + multi-turn retrieval. */
+export async function clientRagReply(latestUserText: string, priorMessages: ChatTurn[] = []): Promise<string> {
   try {
     const corpus = await loadCorpus()
-    const matches = retrieve(message, corpus, 5)
-    return templateFromRag(message, matches)
+    const query = retrievalQuery(latestUserText, priorMessages)
+    const matches = retrieve(query, corpus, 5)
+    return templateFromRag(latestUserText, matches)
   } catch {
-    return buildStubReply(message)
+    return buildStubReply(latestUserText)
   }
 }
