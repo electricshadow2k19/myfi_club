@@ -89,6 +89,7 @@ npm start
 ### AI Assistant (free RAG)
 - `POST /api/v1/chat` — Body: `{ "message": "Your question" }` (optional `conversationId` UUID)
 - **Retrieval:** TF–IDF over `data/rag/knowledge-chunks.json` (no API key, no cost). Edit that file to grow the knowledge base.
+- **Static site (www.myfi.club):** `web` copies this file to `public/rag/` at `npm run build` / `npm run dev` and the chat widget runs the same TF–IDF + template logic in the browser when `NEXT_PUBLIC_MYFI_API_URL` is not set.
 - **Generation (optional, free tiers):** set **one** of:
   - `GROQ_API_KEY` — [Groq Cloud](https://console.groq.com/) (e.g. `llama-3.1-8b-instant`; override with `GROQ_MODEL`)
   - `GEMINI_API_KEY` — [Google AI Studio](https://aistudio.google.com/) (default model `gemini-1.5-flash`; override with `GEMINI_MODEL`)

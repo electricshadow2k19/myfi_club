@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "MYFI Web Application",
   "scripts": {
-    "dev": "next dev",
+    "prebuild": "node scripts/copy-rag-knowledge.cjs",
+    "dev": "node scripts/copy-rag-knowledge.cjs && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

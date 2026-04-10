@@ -1,0 +1,222 @@
+[
+  {
+    "id": "cc-minpay-1",
+    "title": "Credit card minimum payments and payoff time",
+    "text": "Paying only the minimum due on a credit card keeps the account in good standing but interest accrues on the remaining balance at your card's APR. Larger balances at typical APRs can take many years to pay off with minimums alone because a large share of the minimum may go to interest. Paying more than the minimum, especially early, reduces total interest. Strategies: avalanche (highest APR first) or snowball (smallest balance first). Always verify APR, minimum rules, and fees on your actual statement."
+  },
+  {
+    "id": "cc-debt-2",
+    "title": "High credit card balances (e.g. two lakh)",
+    "text": "A substantial balance such as two lakh rupees requires a clear plan: list all cards with APR and balance, avoid new charges if possible, and pay more than the minimum on at least one card. Time to payoff depends on APR, minimum formula, and how much extra you pay each month—it is not fixed. Use your statement's repayment estimate or an amortization calculator with your real APR. MYFI does not see your live balances until accounts are linked."
+  },
+  {
+    "id": "credit-util-3",
+    "title": "Credit utilization and score",
+    "text": "Utilization is how much of your credit limit you use. Lower utilization generally helps scores; very high utilization can hurt until balances are paid down. Paying before the statement closing date can lower reported utilization. Scores also depend on payment history, length of history, mix, and inquiries—check your bureau report for factors."
+  },
+  {
+    "id": "upi-safety-4",
+    "title": "UPI payments safety",
+    "text": "Use official apps, verify payee name and VPA before confirming, do not share UPI PIN or OTP, and enable device lock. For disputes, use the bank or NPCI grievance process per their timelines."
+  },
+  {
+    "id": "sip-mf-5",
+    "title": "SIP and mutual funds basics",
+    "text": "SIPs invest fixed amounts at intervals; they do not guarantee returns. Mutual funds are subject to market risk—read the scheme document and riskometer. Diversify and align horizon with goals; consider speaking to a SEBI-registered advisor for personalized advice."
+  },
+  {
+    "id": "gold-6",
+    "title": "Digital gold and storage",
+    "text": "Digital gold platforms tie metal to vault-backed grams; understand buy/sell spread, storage fees if any, and redemption options (delivery limits may apply). Compare with sovereign gold bonds and physical gold for your goals."
+  },
+  {
+    "id": "insurance-7",
+    "title": "Term and health insurance orientation",
+    "text": "Term life covers death risk for dependents; health covers hospitalization. Compare sum insured, exclusions, waiting periods, and network hospitals. Read the policy wording before buying."
+  },
+  {
+    "id": "myfi-scope-8",
+    "title": "What MYFI aggregates (product scope)",
+    "text": "MYFI aims to unify UPI, bank and card visibility, investments, gold, credit insights, and insurance hooks in one dashboard. Features roll out in phases; not all partners or data feeds may be live in preview."
+  },
+  {
+    "id": "data-privacy-9",
+    "title": "Data and consent",
+    "text": "Financial apps should use explicit consent for data pulls, secure storage, and clear privacy policy. Review permissions and revoke access through your bank or app settings if needed."
+  },
+  {
+    "id": "fraud-10",
+    "title": "Scam awareness",
+    "text": "No bank or RBI official asks for PIN, OTP, or full card number over phone. Report suspicious messages to your bank and cybercrime portals per local guidance."
+  },
+  {
+    "id": "budget-11",
+    "title": "Monthly budgeting when salary is fixed",
+    "text": "Start by tracking where money actually goes for one month. Then split income into essentials (rent, EMIs, groceries), savings (even a small automatic transfer counts), and flexible spending. A simple rule many people use is save first on payday, then spend what is left—not the reverse. Apps like MYFI help when you can see cards, UPI, and bank in one place, but the habit matters more than the tool."
+  },
+  {
+    "id": "emergency-12",
+    "title": "Emergency fund how much and where",
+    "text": "An emergency fund is cash you can access quickly for job loss, medical bills, or urgent repairs—usually discussed as three to six months of essential expenses, but any starter amount beats zero. Keep it in a savings account or liquid fund you will not touch for shopping. Do not invest your entire emergency corpus in volatile assets; stability is the point."
+  },
+  {
+    "id": "emi-vs-cc-13",
+    "title": "Credit card EMI versus personal loan",
+    "text": "Card EMI and personal loans both charge interest; compare effective annual cost, processing fees, and prepayment rules. Sometimes a lower-rate personal loan can clear expensive card debt—but only if you stop adding new card balances. Read the fine print on zero-percent offers; they often have fees or revert to high APR if you miss terms."
+  },
+  {
+    "id": "cibil-14",
+    "title": "CIBIL score dropped what to check",
+    "text": "Pull your free annual report from CIBIL or other bureaus and check for wrong accounts, duplicate loans, or late marks you do not recognize. Dispute errors in writing with proof. If the drop is from high utilization or a missed payment, fix behavior over months—scores usually recover gradually; there is no honest instant fix."
+  },
+  {
+    "id": "late-payment-15",
+    "title": "Missed credit card or loan payment",
+    "text": "Pay at least the minimum as soon as you can to limit damage and late fees. Contact the lender if hardship is genuine—some offer restructuring or moratorium options with conditions. Repeated misses hurt credit and future borrowing. Going forward, set calendar reminders or autopay for at least the minimum."
+  },
+  {
+    "id": "balance-transfer-16",
+    "title": "Balance transfer to another card",
+    "text": "Moving debt to a lower-APR card can save interest if you qualify and pay aggressively before promotional rates end. Watch for transfer fees (often a percent of amount), new card annual fees, and the revert APR. It is not a solution if you keep spending on the old card."
+  },
+  {
+    "id": "rewards-trap-17",
+    "title": "Credit card rewards versus interest",
+    "text": "Cashback and points are small compared to revolving interest on unpaid balances. If you carry a balance, prioritize paying it off over optimizing rewards. Pay-in-full users can compare reward rates, annual fees, and lounge or fuel benefits that match actual spend."
+  },
+  {
+    "id": "upi-limit-18",
+    "title": "UPI transaction limits and failed payments",
+    "text": "Daily and per-transaction limits depend on your bank and UPI app settings. If payments fail, check network, account balance, daily cap, and whether the merchant VPA is correct. For recurring mandates, confirm you authorized the debit and the amount matches what you agreed."
+  },
+  {
+    "id": "fd-liquid-19",
+    "title": "Fixed deposit versus liquid mutual fund",
+    "text": "FDs give predictable returns for a fixed tenure with possible penalties for early break. Liquid or ultra-short debt funds aim for stability and easier withdrawal but carry market and credit risk—read factsheets. Neither replaces an emergency fund if you cannot access money when needed."
+  },
+  {
+    "id": "ppf-epf-20",
+    "title": "PPF and EPF basics for salaried people",
+    "text": "EPF is employer-linked retirement savings with rules on withdrawal. PPF is a long-term government-backed option with annual limits and a lock-in; it is often used for conservative long goals. Both have tax angles—verify current limits and rules with a CA or official notifications; do not treat chat answers as tax advice."
+  },
+  {
+    "id": "nps-21",
+    "title": "NPS National Pension System overview",
+    "text": "NPS is a voluntary pension product with equity and debt choices and lock-in until retirement age (with some exceptions). Costs and fund performance vary by pension fund manager. Suitability depends on horizon, discipline, and other retirement savings—read PFRDA material before committing."
+  },
+  {
+    "id": "elss-22",
+    "title": "ELSS tax-saving mutual funds",
+    "text": "ELSS funds have a three-year lock-in and market risk; they are one of several Section 80C options. Past returns do not predict future results. Compare with PPF, EPF, and insurance-linked products on lock-in, risk, and cost—not just the tax label."
+  },
+  {
+    "id": "home-loan-23",
+    "title": "Home loan prepayment should I do it",
+    "text": "Prepaying reduces total interest if your loan rate is higher than what you could safely earn elsewhere after tax. Check if your lender charges prepayment fees (many floating-rate loans have fewer restrictions). Keep emergency savings before aggressive prepayment—do not empty your cushion for a slightly lower outstanding principal."
+  },
+  {
+    "id": "education-loan-24",
+    "title": "Education loan repayment tips",
+    "text": "Know your moratorium, interest accrual during study, and whether interest is subsidized under any scheme. After placement, pay more than EMI when possible to shorten tenure. Defaults hurt co-applicant credit—communicate early with the bank if income is delayed."
+  },
+  {
+    "id": "bnpl-25",
+    "title": "Buy now pay later and pay-in-3 apps",
+    "text": "BNPL feels like small payments but multiple plans add up and missed payments can hit credit or incur fees. Treat BNPL like debt: only use for planned purchases you could afford in one go. Read late fees and reporting to bureaus in the app terms."
+  },
+  {
+    "id": "volatility-26",
+    "title": "Market fall and mutual fund SIP",
+    "text": "Equity NAVs move up and down; SIPs buy more units when prices are lower, which is why rupee-cost averaging is discussed for long horizons. Panic-selling after a drop turns paper loss into real loss unless you truly need the money. Match equity exposure to when you need the goal—money needed within two to three years should not be all in volatile funds."
+  },
+  {
+    "id": "stocks-vs-mf-27",
+    "title": "Direct stocks versus mutual funds for beginners",
+    "text": "Funds offer diversification and professional management for a fee; direct stocks need time to research and emotional discipline. Many people use funds for core goals and keep a small satellite for stock learning. Neither is get-rich-quick; avoid tips from strangers on social media."
+  },
+  {
+    "id": "gold-sgb-28",
+    "title": "Sovereign Gold Bond versus digital gold",
+    "text": "SGBs pay a fixed interest on issue price (rules change by tranche), have tenure and liquidity constraints, and tax treatment differs on redemption. Digital gold is more flexible for small amounts but has spreads and platform risk. Choose based on horizon, tax, and how you want to hold gold."
+  },
+  {
+    "id": "health-cover-29",
+    "title": "How much health insurance cover",
+    "text": "Common guidance is enough cover for a major hospitalization in your city plus inflation—many families target higher sums for metro care or floater policies for the household. Top-up or super top-up plans can raise cover at lower cost with a deductible. Declare medical history honestly to avoid claim rejection."
+  },
+  {
+    "id": "term-cover-30",
+    "title": "How much term life cover",
+    "text": "Rules of thumb exist (e.g. ten to fifteen times income) but depend on dependents, loans, and goals. Cover should replace income or pay off key liabilities if you are gone. Compare premium, claim settlement reputation, and riders; buy only what you understand."
+  },
+  {
+    "id": "freelance-31",
+    "title": "Irregular income freelancers and gig workers",
+    "text": "Average your last six to twelve months of income for planning, keep a larger emergency buffer, and set aside GST or advance tax as you earn so April does not surprise you. Separate business and personal accounts even if small—it makes taxes and proofs easier."
+  },
+  {
+    "id": "joint-account-32",
+    "title": "Joint accounts and financial independence",
+    "text": "Joint holders can often operate or view per mandate; understand survivorship rules and liabilities on joint loans. Having your own bank account and credit history still matters for independence and credit score visibility. Discuss goals openly if you share expenses with family or spouse."
+  },
+  {
+    "id": "subscription-33",
+    "title": "Subscriptions draining money",
+    "text": "List every recurring debit—OTT, gym, cloud, app trials that converted. Cancel what you do not use; negotiate or annualize what you keep if it saves money. Small monthly amounts compound into large yearly leaks."
+  },
+  {
+    "id": "salary-advance-34",
+    "title": "Salary advance apps and high-cost short loans",
+    "text": "Some wage-access or small-ticket loans carry very high effective APR when fees are annualized. Use only for true short gaps you can clear on next salary—not for lifestyle spend. Repeated rollovers create debt cycles similar to card revolving."
+  },
+  {
+    "id": "phishing-35",
+    "title": "Fake KYC and refund scams",
+    "text": "Scammers pose as bank, RBI, or courier and ask you to install remote apps or share OTP to unblock KYC or process a refund. Real banks do not operate that way. Hang up, call the official number on your card, and never grant screen sharing to strangers."
+  },
+  {
+    "id": "atm-safety-36",
+    "title": "ATM and card skimming",
+    "text": "Cover the keypad when entering PIN, prefer bank-owned ATMs in safe locations, and check for loose readers. If the machine looks tampered, use another. Enable SMS and app alerts for every card transaction so you spot fraud fast."
+  },
+  {
+    "id": "nominee-37",
+    "title": "Nominee on bank FD mutual fund demat",
+    "text": "A nominee helps transfer assets faster to the right person; it is not the same as a will but reduces friction. Update nominees after life events. For large estates, a will and legal advice matter—this is general information, not legal advice."
+  },
+  {
+    "id": "retirement-38",
+    "title": "Starting retirement savings in your thirties or forties",
+    "text": "Later starts need higher monthly savings or longer work to hit the same corpus—math is strict but not hopeless. Increase SIP when income rises, use tax-advantaged wrappers where suitable, and avoid borrowing from retirement for non-emergencies. Even ten to fifteen years of disciplined equity-heavy SIP can help if horizon allows."
+  },
+  {
+    "id": "first-job-39",
+    "title": "First salary first steps",
+    "text": "Open a separate savings habit early—even five or ten percent—before lifestyle inflates to match pay. Understand PF deduction, tax regime choice, and reimbursements on your payslip. Build credit slowly with one card you pay in full rather than many small loans."
+  },
+  {
+    "id": "loan-settlement-40",
+    "title": "Loan settlement versus closure",
+    "text": "Settling for less than full dues may be reported differently on credit than normal closure and can affect future borrowing. Get closure letters and NOC in writing. If collectors pressure you, know RBI fair practices guidelines and escalate through proper banking channels."
+  },
+  {
+    "id": "investment-risk-41",
+    "title": "Conservative moderate aggressive risk profiles",
+    "text": "Conservative investors prioritize capital preservation and accept lower expected returns. Moderate mixes equity and debt. Aggressive holds more equity for long goals and tolerates swings. Your profile should match sleep-at-night comfort and goal dates—not what friends chase in a bull market."
+  },
+  {
+    "id": "myfi-assistant-42",
+    "title": "What MYFI Assistant can and cannot do",
+    "text": "MYFI Assistant gives general education from MYFI's knowledge base and is not looking at your private account data unless a future version is explicitly linked and you consent. It cannot guarantee investment outcomes, predict markets, or replace a CA, lawyer, or SEBI-registered advisor. For numbers specific to your cards or loans, check your statements or linked accounts in the app when available."
+  },
+  {
+    "id": "rupay-visa-43",
+    "title": "RuPay Visa Mastercard differences at high level",
+    "text": "Network choice affects acceptance abroad, lounge programs, and UPI-on-card features where offered. Fees and rewards are set by the issuing bank, not only the network. Pick based on where you spend and annual fee versus benefits you actually use."
+  },
+  {
+    "id": "bill-pay-44",
+    "title": "Electricity broadband rent autopay",
+    "text": "Autopay avoids late fees but requires a funded account on debit day. Review bills for sudden spikes before debit. For rent, keep proof of transfer and agreement; some landlords prefer UPI over cash for traceability."
+  }
+]

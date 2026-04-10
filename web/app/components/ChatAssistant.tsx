@@ -1,50 +1,29 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { clientRagReply } from '../lib/ragClient'
 
 type Msg = { role: 'user' | 'assistant'; text: string }
 
 const API_BASE = (process.env.NEXT_PUBLIC_MYFI_API_URL || '').replace(/\/$/, '')
 
-/** Mirrors backend stub when API URL is unset or request fails (static export friendly). */
-function localStubReply(userMessage: string): string {
-  const lower = userMessage.toLowerCase()
-  let reply =
-    "Thanks for using MYFI Assistant (preview). I'm not connected to live financial data or a full RAG pipeline yet—this is a stub response for integration testing.\n\n"
-  if (/debt|pay off|balance|interest/i.test(userMessage)) {
-    reply +=
-      'For credit card debt in general: prioritize high-APR balances, pay at least the minimum on all cards, and consider the avalanche (highest rate first) or snowball (smallest balance first) strategy. Verify numbers against your actual statements in the MYFI app.'
-  } else if (/credit score|utilization|crif|experian/i.test(lower)) {
-    reply +=
-      "Credit scores often improve when utilization stays low and payments are on time. Check your latest score and factors inside MYFI's credit section once live data is linked."
-  } else if (/save|savings|sip|invest/i.test(lower)) {
-    reply +=
-      'For savings and investing, align amount and horizon with your goals. MYFI will surface personalized insights once your accounts and risk profile are connected.'
-  } else {
-    reply +=
-      "Ask me about debt payoff, credit utilization, or savings goals—I'll respond with educational guidance grounded in MYFI policies once RAG is enabled."
-  }
-  return reply
-}
-
 async function fetchAssistantReply(message: string): Promise<string> {
-  if (!API_BASE) {
-    return localStubReply(message)
-  }
-  try {
-    const res = await fetch(`${API_BASE}/api/v1/chat`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message }),
-    })
-    const json = await res.json()
-    if (!res.ok || !json?.success || !json?.data?.reply) {
-      return localStubReply(message)
+  if (API_BASE) {
+    try {
+      const res = await fetch(`${API_BASE}/api/v1/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message }),
+      })
+      const json = await res.json()
+      if (res.ok && json?.success && json?.data?.reply) {
+        return String(json.data.reply)
+      }
+    } catch {
+      /* use client RAG below */
     }
-    return String(json.data.reply)
-  } catch {
-    return localStubReply(message)
   }
+  return clientRagReply(message)
 }
 
 export default function ChatAssistant() {

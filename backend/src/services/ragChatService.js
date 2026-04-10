@@ -19,12 +19,32 @@ Rules:
 - No personalized legal/tax/investment advice; keep answers educational.
 - Short paragraphs, plain language. If mentioning payoff time, stress it depends on APR and payment amount unless user gave numbers you can use for a rough illustration.`;
 
+function normalizeToken(t) {
+  const map = {
+    minumum: 'minimum',
+    payement: 'payment',
+    payements: 'payments',
+    instalment: 'installment',
+    emis: 'emi',
+    lacs: 'lakh',
+    lac: 'lakh',
+    lakhs: 'lakh',
+    rs: 'rupees',
+    inr: 'rupees',
+    creditcard: 'credit',
+    payoff: 'pay',
+    payed: 'pay',
+  };
+  return map[t] || t;
+}
+
 function tokenize(text) {
   return text
     .toLowerCase()
     .replace(/[^a-z0-9\u0900-\u097F\s]/g, ' ')
     .split(/\s+/)
-    .filter(Boolean);
+    .filter(Boolean)
+    .map(normalizeToken);
 }
 
 function loadChunks() {
@@ -116,15 +136,18 @@ function formatContext(matches) {
 }
 
 function templateFromRag(userMessage, matches) {
-  if (!matches.length || matches[0].score < 0.02) {
+  const threshold = 0.012;
+  if (!matches.length || matches[0].score < threshold) {
     return buildStubReply(userMessage);
   }
   const parts = matches.slice(0, 3).map((m) => `**${m.chunk.title}**\n${m.chunk.text}`);
-  return (
-    'Here is guidance based on MYFI’s knowledge base (retrieved for your question):\n\n' +
-    parts.join('\n\n') +
-    '\n\n---\nThis is general educational information—not personalized advice. Check your card agreement and statements for exact APRs, minimums, and payoff estimates.'
+  const wantsTiming = /how long|how many month|months to|years to|time to|close my|pay off|clear.*bill/i.test(
+    userMessage
   );
+  const footer = wantsTiming
+    ? '\n\n---\n**How long to clear the balance?** There is no single answer without your **exact APR** and how the **minimum due** is calculated. Use the repayment estimate on your **card statement** or a calculator with your real numbers. Paying only the minimum usually means **many years** and **large total interest** for a large balance at typical card APRs.'
+    : '\n\n---\nThis is general educational information—not personalized advice. Check your card agreement and statements for exact APRs, minimums, and payoff estimates.';
+  return 'Here is guidance based on MYFI’s knowledge base (retrieved for your question):\n\n' + parts.join('\n\n') + footer;
 }
 
 async function generateGroq(userMessage, contextBlock) {
